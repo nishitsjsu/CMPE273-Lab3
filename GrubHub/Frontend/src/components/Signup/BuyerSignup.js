@@ -3,9 +3,11 @@ import "../Login/login.css";
 import axios from "axios";
 import cookie from "react-cookies";
 import { Redirect } from "react-router";
+import { graphql, compose } from 'react-apollo';
+import { buyerSignupMutation } from '../../mutation/mutations'
 
 //Define a Login Component
-class Login extends Component {
+class BuyerSignup extends Component {
   //call the constructor method
   constructor(props) {
     //Call the constrictor of Super class i.e The Component
@@ -53,27 +55,44 @@ class Login extends Component {
     var headers = new Headers();
     //prevent page from refresh
     e.preventDefault();
-    const data = {
-      username: this.state.username,
-      password: this.state.password,
-      email: this.state.email
-    };
-    //set the with credentials to true
-    axios.defaults.withCredentials = true;
-    //make a post request with the user data
-    axios.post("http://localhost:3001/buyersignup", data).then(response => {
-      console.log("Status Code : ", response.status);
-      if (response.status === 200) {
-        window.location.replace("/login");
-        this.setState({
-          authFlag: true
-        });
-      } else {
-        this.setState({
-          authFlag: false
-        });
+    // const data = {
+    //   username: this.state.username,
+    //   password: this.state.password,
+    //   email: this.state.email
+    // };
+    // //set the with credentials to true
+    // axios.defaults.withCredentials = true;
+    // //make a post request with the user data
+    // axios.post("http://localhost:3001/buyersignup", data).then(response => {
+    //   console.log("Status Code : ", response.status);
+    //   if (response.status === 200) {
+    //     window.location.replace("/login");
+    //     this.setState({
+    //       authFlag: true
+    //     });
+    //   } else {
+    //     this.setState({
+    //       authFlag: false
+    //     });
+    //   }
+    // });
+
+    this.props.buyerSignupMutation({
+      variables: {
+        name: this.state.username,
+        email: this.state.email,
+        password: this.state.password,
       }
+      //refetchQueries: [{ query: getBooksQuery }]
+    }).then((sendD) => {
+      console.log(sendD)
+      console.log(sendD.data)
+
+      // window.location.replace('/login')
     });
+
+
+
   };
 
   render() {
@@ -136,4 +155,8 @@ class Login extends Component {
   }
 }
 //export Login Component
-export default Login;
+// export default Login;
+
+export default compose(
+  graphql(buyerSignupMutation, { name: "buyerSignupMutation" })
+)(BuyerSignup);

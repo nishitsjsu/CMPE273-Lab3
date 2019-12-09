@@ -83,6 +83,17 @@ const OwnerType = new GraphQLObjectType({
     })
 });
 
+const BuyerType = new GraphQLObjectType({
+    name: 'Buyer',
+    fields: () => ({
+        _id: { type: GraphQLID },
+        name: { type: GraphQLString },
+        email: { type: GraphQLString },
+        password: { type: GraphQLString },
+        phone: { type: GraphQLString }
+    })
+});
+
 const SectionType = new GraphQLObjectType({
     name: 'Section',
     fields: () => ({
@@ -250,6 +261,31 @@ const Mutation = new GraphQLObjectType({
                 return doc
             }
         },
+
+
+        buyerSignup: {
+            type: BuyerType,
+            args: {
+                name: { type: GraphQLString },
+                email: { type: GraphQLString },
+                password: { type: GraphQLString }
+            },
+            async resolve(parent, args) {
+                console.log("Inside mutation")
+
+                let obj = {
+                    name: args.name,
+                    email: args.email,
+                    phone: "",
+                    password: args.password,
+                }
+
+                let buyer = new Buyer(obj)
+                var doc = await buyer.save()
+                return doc
+            }
+        },
+
 
         login: {
             type: OwnerType,
