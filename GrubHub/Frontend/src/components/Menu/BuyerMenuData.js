@@ -4,6 +4,8 @@ import axios from 'axios';
 import { Link } from "react-router-dom";
 import { Redirect } from "react-router";
 import BuyerMenuDetails from "../Menu/BuyerMenuDetails";
+import { buyerMenuDetails } from '../../queries/queries'
+import { graphql, compose, withApollo } from 'react-apollo';
 
 class MenuData extends Component {
     constructor(props) {
@@ -17,20 +19,38 @@ class MenuData extends Component {
 
 
     componentDidMount() {
-        axios.get('http://localhost:3001/sectiondetailsbuyer', {
-            params: {
-                sectionid: this.props.data.sectionid,
-                ownerid: this.props.data.ownerid
-            }
-        })
-            .then((response) => {
-                console.log("Received response")
-                //update the state with the response data
-                this.setState({
+        // axios.get('http://localhost:3001/sectiondetailsbuyer', {
+        //     params: {
+        //         sectionid: this.props.data.sectionid,
+        //         ownerid: this.props.data.ownerid
+        //     }
+        // })
+        //     .then((response) => {
+        //         console.log("Received response")
+        //         //update the state with the response data
+        //         this.setState({
 
-                    items: this.state.items.concat(response.data)
-                });
-            });
+        //             items: this.state.items.concat(response.data)
+        //         });
+        //     });
+        this.props.client.query({
+            query: buyerMenuDetails,
+            // this.props.getOwnerProfile({
+            variables: {
+                ownername: this.props.data.sectionname,
+                sectionname: this.props.data.sectionname
+            }
+        }).then(response => {
+            console.log("get ownersection", response);
+            this.setState({
+                items: response.data.buyerMenuDetails,
+            })
+        }).catch(e => {
+            console.log("error", e);
+            this.setState({
+                status: 400
+            })
+        })
     }
 
 
@@ -85,4 +105,5 @@ class MenuData extends Component {
     }
 }
 
-export default MenuData;
+// export default MenuData;
+export default withApollo(MenuData);

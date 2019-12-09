@@ -69,4 +69,13 @@ query buyerMenu($ownername: String){
   }
 `;
 
-export { getAuthorsQuery, getBooksQuery, getOwnerProfile, getOwnerSection, getSectionDetails, getBuyerProfile, buyerMenu };
+const buyerMenuDetails = gql`
+query buyerMenuDetails($ownername: String, $sectionname: String){
+    buyerMenuDetails(ownername:$ownername, sectionname:$sectionname){
+            _id
+            name
+    }
+  }
+`;
+
+export { getAuthorsQuery, getBooksQuery, getOwnerProfile, getOwnerSection, getSectionDetails, getBuyerProfile, buyerMenu, buyerMenuDetails };

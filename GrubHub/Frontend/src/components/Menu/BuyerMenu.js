@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { Redirect } from 'react-router';
 import BuyerMenuData from "../Menu/BuyerMenuData"
 import { buyerMenu } from '../../queries/queries'
+import { graphql, compose, withApollo } from 'react-apollo';
 
 class BuyerMenu extends Component {
     constructor(props) {
@@ -56,20 +57,11 @@ class BuyerMenu extends Component {
                 <tr>
                     <BuyerMenuData key={Math.random} data={section}></BuyerMenuData>
                 </tr>
-                // <tr key="index">
-                //     <td>{book.BookID}</td>
-                //     <td>{book.Title}</td>
-                //     <td>{book.Author}</td>
-                //     <td>{book.Status}</td>
-                //     <input type="button" onClick={this.viewButton(index)} value="view details"></input>
-                // </tr>
+
             )
         })
         //if not logged in go to login page
         let redirectVar = null;
-        // if (!cookie.load('cookie')) {
-        //     redirectVar = <Redirect to="/login" />
-        // }
         return (
             <div>
                 {/* {redirectVar} */}
