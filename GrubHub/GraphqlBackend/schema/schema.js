@@ -160,6 +160,19 @@ const RootQuery = new GraphQLObjectType({
             }
         },
 
+        getBuyerProfile: {
+            type: new GraphQLList(OwnerType),
+            args: {
+                email: {
+                    type: GraphQLString
+                }
+            },
+            async resolve(parent, args) {
+                console.log("In fetch buyer profile")
+                return await Buyer.find({ "email": args.email })
+            }
+        },
+
         getOwnerSection: {
             type: new GraphQLList(SectionType),
             args: {

@@ -46,6 +46,14 @@ const UpdateOwnerMutation = gql`
     }
 `;
 
+const UpdateBuyerMutation = gql`
+    mutation updateBuyer($email: String, $name: String, $phone : String){
+        updateBuyer(email: $email,name : $name, phone: $phone){
+            email
+        }
+    }
+`;
+
 const AddSectionMutation = gql`
     mutation addSection($sectionname: String, $ownername: String){
         addSection(sectionname : $sectionname, ownername: $ownername){
@@ -63,4 +71,4 @@ const AddItemMutation = gql`
 `;
 
 
-export { addBookMutation, ownerSignupMutation, LoginMutation, UpdateOwnerMutation, AddSectionMutation, AddItemMutation, buyerSignupMutation };
+export { addBookMutation, ownerSignupMutation, LoginMutation, UpdateOwnerMutation, AddSectionMutation, AddItemMutation, buyerSignupMutation, UpdateBuyerMutation };

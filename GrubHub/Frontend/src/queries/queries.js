@@ -30,6 +30,16 @@ query getOwnerProfile($email: String){
   }
 `;
 
+const getBuyerProfile = gql`
+query getBuyerProfile($email: String){
+    getBuyerProfile(email:$email){
+        name,
+        email,
+        phone
+    }
+  }
+`;
+
 const getOwnerSection = gql`
 query getOwnerSection($ownername: String){
     getOwnerSection(ownername:$ownername){
@@ -50,4 +60,4 @@ query getSectionDetails($ownername: String, $sectionname: String){
   }
 `;
 
-export { getAuthorsQuery, getBooksQuery, getOwnerProfile, getOwnerSection, getSectionDetails };
+export { getAuthorsQuery, getBooksQuery, getOwnerProfile, getOwnerSection, getSectionDetails, getBuyerProfile };

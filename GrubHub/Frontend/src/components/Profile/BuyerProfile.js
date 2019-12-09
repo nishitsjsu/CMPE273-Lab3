@@ -3,9 +3,13 @@ import "./op.css";
 import axios from "axios";
 import cookie from "react-cookies";
 import { Redirect } from "react-router";
+import { graphql, compose, withApollo } from 'react-apollo';
+import { Query } from "react-apollo";
+import { getBuyerProfile } from '../../queries/queries';
+import { UpdateBuyerMutation } from '../../mutation/mutations'
 
 //Define a Login Component
-class Login extends Component {
+class BuyerProfile extends Component {
   //call the constructor method
   constructor(props) {
     //Call the constrictor of Super class i.e The Component
@@ -80,27 +84,45 @@ class Login extends Component {
 
 
   componentDidMount() {
-    axios.get('http://localhost:3001/buyerprofile', {
-      params: {
-        emailcookie: this.state.emailcookie
+    // axios.get('http://localhost:3001/buyerprofile', {
+    //   params: {
+    //     emailcookie: this.state.emailcookie
+    //   }
+    // })
+    //   .then((response) => {
+    //     console.log(response.data)
+
+    //     this.setState({
+    //       username: response.data.username,
+    //       email: response.data.email,
+    //       phone: response.data.phone,
+    //       imagePath: "http://localhost:3001/profilepics/" + response.data.profileimage + ""
+
+
+    //     })
+    //   });
+
+    this.props.client.query({
+      query: getBuyerProfile,
+      // this.props.getBuyerProfile({
+      variables: {
+        email: this.state.emailcookie
       }
+    }).then(response => {
+      console.log("get buyerprofile", response);
+      this.setState({
+        username: response.data.getBuyerProfile[0].name,
+        email: response.data.getBuyerProfile[0].email,
+        phone: response.data.getBuyerProfile[0].phone
+        // travelers: res.data.propertytraveler,
+        // status: 200
+      })
+    }).catch(e => {
+      console.log("error", e);
+      this.setState({
+        status: 400
+      })
     })
-      .then((response) => {
-        console.log(response.data)
-
-        this.setState({
-          username: response.data.username,
-          email: response.data.email,
-          phone: response.data.phone,
-          imagePath: "http://localhost:3001/profilepics/" + response.data.profileimage + ""
-
-
-        })
-        //update the state with the response data
-        // this.setState({
-        //   books: this.state.books.concat(response.data)
-        // });
-      });
   }
 
   //Image change handler
@@ -215,4 +237,10 @@ class Login extends Component {
   }
 }
 //export Login Component
-export default Login;
+// export default Login;
+
+export default compose(
+  withApollo,
+  graphql(getBuyerProfile, { name: "getBuyerProfile" }),
+  graphql(UpdateBuyerMutation, { name: "UpdateBuyerMutation" })
+)(BuyerProfile);
