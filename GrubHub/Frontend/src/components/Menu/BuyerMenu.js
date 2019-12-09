@@ -5,6 +5,7 @@ import cookie from 'react-cookies';
 import { Link } from "react-router-dom";
 import { Redirect } from 'react-router';
 import BuyerMenuData from "../Menu/BuyerMenuData"
+import { buyerMenu } from '../../queries/queries'
 
 class BuyerMenu extends Component {
     constructor(props) {
@@ -15,19 +16,37 @@ class BuyerMenu extends Component {
     }
     //get the books data from backend  
     componentDidMount() {
-        axios.get('http://localhost:3001/buyersection', {
-            params: {
-                restaurantid: this.props.match.params.restaurantid
-            }
-        })
-            .then((response) => {
-                console.log("Received response")
-                //update the state with the response data
-                this.setState({
+        // axios.get('http://localhost:3001/buyersection', {
+        //     params: {
+        //         restaurantid: this.props.match.params.restaurantid
+        //     }
+        // })
+        //     .then((response) => {
+        //         console.log("Received response")
+        //         //update the state with the response data
+        //         this.setState({
 
-                    sections: this.state.sections.concat(response.data)
-                });
-            });
+        //             sections: this.state.sections.concat(response.data)
+        //         });
+        //     });
+        this.props.client.query({
+            query: buyerMenu,
+            // this.props.getOwnerProfile({
+            variables: {
+                ownername: this.props.match.params.restaurantid
+            }
+        }).then(response => {
+            console.log("get ownersection", response);
+            this.setState({
+                sections: response.data.buyerMenu,
+            })
+        }).catch(e => {
+            console.log("error", e);
+            this.setState({
+                status: 400
+            })
+        })
+
     }
 
     render() {
@@ -83,4 +102,5 @@ class BuyerMenu extends Component {
     }
 }
 //export Home Component
-export default BuyerMenu;
+// export default BuyerMenu;
+export default withApollo(BuyerMenu);

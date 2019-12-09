@@ -187,6 +187,20 @@ const RootQuery = new GraphQLObjectType({
             }
         },
 
+        buyerMenu: {
+            type: new GraphQLList(SectionType),
+            args: {
+                ownername: {
+                    type: GraphQLString
+                }
+            },
+            async resolve(parent, args) {
+                console.log("In fetch owner section" + args.ownername)
+                sections = await Section.find({ "ownername": args.ownername })
+                return sections
+            }
+        },
+
         getSectionDetails: {
             type: new GraphQLList(ItemType),
             args: {
