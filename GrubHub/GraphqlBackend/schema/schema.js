@@ -347,6 +347,21 @@ const Mutation = new GraphQLObjectType({
             }
         },
 
+        updateBuyer: {
+            type: BuyerType,
+            args: {
+                name: { type: GraphQLString },
+                email: { type: GraphQLString },
+                phone: { type: GraphQLString }
+            },
+            async resolve(parent, args) {
+                console.log("Inside mutation update buyer")
+
+                var doc = await Buyer.findOneAndUpdate({ email: args.email }, { $set: { name: args.name, phone: args.phone } })
+                return doc
+            }
+        },
+
         addSection: {
             type: SectionType,
             args: {

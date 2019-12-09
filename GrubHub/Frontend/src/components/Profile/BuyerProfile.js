@@ -58,27 +58,40 @@ class BuyerProfile extends Component {
     var headers = new Headers();
     //prevent page from refresh
     e.preventDefault();
-    const data = {
-      username: this.state.username,
-      email: this.state.email,
-      phone: this.state.phone,
+    // const data = {
+    //   username: this.state.username,
+    //   email: this.state.email,
+    //   phone: this.state.phone,
 
 
-    };
-    //set the with credentials to true
-    axios.defaults.withCredentials = true;
-    //make a post request with the user data
-    axios.post("http://localhost:3001/buyerprofile", data).then(response => {
-      console.log("Status Code : ", response.status);
-      if (response.status === 200) {
-        this.setState({
-          authFlag: true
-        });
-      } else {
-        this.setState({
-          authFlag: false
-        });
+    // };
+    // //set the with credentials to true
+    // axios.defaults.withCredentials = true;
+    // //make a post request with the user data
+    // axios.post("http://localhost:3001/buyerprofile", data).then(response => {
+    //   console.log("Status Code : ", response.status);
+    //   if (response.status === 200) {
+    //     this.setState({
+    //       authFlag: true
+    //     });
+    //   } else {
+    //     this.setState({
+    //       authFlag: false
+    //     });
+    //   }
+    // });
+
+    this.props.UpdateBuyerMutation({
+      variables: {
+        email: this.state.email,
+        name: this.state.username,
+        phone: this.state.phone,
       }
+
+      //refetchQueries: [{ query: getBooksQuery }]
+    }).then(res => {
+      console.log("properties", res);
+      // window.location.reload()
     });
   };
 
