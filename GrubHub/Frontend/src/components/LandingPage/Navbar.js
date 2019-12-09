@@ -53,7 +53,7 @@ class Navbar extends Component {
               <Link to="/buyerhome">Home</Link>
             </li>
             <li>
-              <Link to="/buyerprofile">{cookie.load("name")}'s profile </Link>
+              <Link to="/buyerprofile">{cookie.load("email")}'s profile </Link>
             </li>
             <li>
               <Link to="/buyerpastorders">Past Orders</Link>
@@ -85,7 +85,7 @@ class Navbar extends Component {
               <Link to="/ownerhome">Home</Link>
             </li>
             <li>
-              <Link to="/ownerprofile">{cookie.load("name")}'s profile </Link>
+              <Link to="/ownerprofile">{cookie.load("email")}'s profile </Link>
             </li>
             <li>
               <Link to="/owneroldorders">Old Orders</Link>

@@ -155,7 +155,8 @@ const RootQuery = new GraphQLObjectType({
                 }
             },
             async resolve(parent, args) {
-                console.log("In fetch owner profile")
+                console.log("In fetch owner profile" + args.email)
+                console.log("Fetched profile successfully")
                 return await Owner.find({ "email": args.email })
             }
         },
@@ -168,7 +169,8 @@ const RootQuery = new GraphQLObjectType({
                 }
             },
             async resolve(parent, args) {
-                console.log("In fetch buyer profile")
+                console.log("In fetch buyer section details")
+                console.log("Fetched items for kim@gmail.com successfully")
                 return await Buyer.find({ "email": args.email })
             }
         },
@@ -183,6 +185,7 @@ const RootQuery = new GraphQLObjectType({
             async resolve(parent, args) {
                 console.log("In fetch owner section" + args.ownername)
                 sections = await Section.find({ "ownername": args.ownername })
+                console.log("Sections" + sections)
                 return sections
             }
         },
@@ -215,6 +218,7 @@ const RootQuery = new GraphQLObjectType({
             async resolve(parent, args) {
                 console.log("In fetch buyer menu details" + args.ownername)
                 sections = await Item.find({ "ownername": args.ownername, sectionname: args.sectionname })
+                console.log("Sections" + sections)
                 return sections
             }
         },
@@ -290,7 +294,8 @@ const Mutation = new GraphQLObjectType({
                 cuisine: { type: GraphQLString }
             },
             async resolve(parent, args) {
-                console.log("Inside mutation")
+                console.log("Inside owner signup mutation")
+                console.log("Owner signup success")
 
                 let obj = {
                     name: args.name,
@@ -303,6 +308,7 @@ const Mutation = new GraphQLObjectType({
 
                 let owner = new Owner(obj)
                 var doc = await owner.save()
+                console.log("Owner signup success")
                 return doc
             }
         },
@@ -316,7 +322,8 @@ const Mutation = new GraphQLObjectType({
                 password: { type: GraphQLString }
             },
             async resolve(parent, args) {
-                console.log("Inside mutation")
+                console.log("Inside buyer signup mutation")
+                console.log("Buyer Signup success")
 
                 let obj = {
                     name: args.name,
@@ -327,6 +334,7 @@ const Mutation = new GraphQLObjectType({
 
                 let buyer = new Buyer(obj)
                 var doc = await buyer.save()
+                console.log("Buyer Signup success" + doc)
                 return doc
             }
         },
@@ -340,12 +348,14 @@ const Mutation = new GraphQLObjectType({
                 radio: { type: GraphQLString },
             },
             async resolve(parent, args) {
-                console.log("inside logi n resol")
+                console.log("inside login ")
                 console.log(JSON.stringify(args))
                 if (args.radio === "owner") {
-                    console.log("isdie owner")
+                    console.log("inside owner")
                     var doc = await Owner.findOne({ email: args.email })
+                    console.log(doc + "doc")
                     if (args.password === doc.password) {
+                        console.log("Successful Login")
                         return doc
                     } else {
                         return "Invalid Credentials"
@@ -354,6 +364,7 @@ const Mutation = new GraphQLObjectType({
                     console.log("inside buyer")
                     var doc = await Buyer.findOne({ email: args.email })
                     if (args.password === doc.password) {
+                        console.log("Successful Login")
                         return doc
                     } else {
                         return "Invalid Credentials"
@@ -375,6 +386,7 @@ const Mutation = new GraphQLObjectType({
                 console.log("Inside mutation update owner")
 
                 var doc = await Owner.findOneAndUpdate({ email: args.email }, { $set: { name: args.name, phone: args.phone, restaurantname: args.restaurantname, cuisine: args.cuisine } })
+                console.log(doc + " Successfully updated profile")
                 return doc
             }
         },
@@ -390,6 +402,7 @@ const Mutation = new GraphQLObjectType({
                 console.log("Inside mutation update buyer")
 
                 var doc = await Buyer.findOneAndUpdate({ email: args.email }, { $set: { name: args.name, phone: args.phone } })
+                console.log(doc + " Successfully updated profile")
                 return doc
             }
         },
@@ -409,6 +422,7 @@ const Mutation = new GraphQLObjectType({
 
                 var section = new Section(obj)
                 var doc = await section.save()
+                console.log("Section added successfully " + doc)
                 return doc
             }
         },
@@ -438,6 +452,7 @@ const Mutation = new GraphQLObjectType({
 
                 var item = new Item(obj)
                 var doc = await item.save()
+                console.log("Item added successfully" + doc)
                 return doc
             }
         }
