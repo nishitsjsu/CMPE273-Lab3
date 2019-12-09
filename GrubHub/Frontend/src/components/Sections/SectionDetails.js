@@ -114,7 +114,7 @@ class SectionDetails extends Component {
                             <tr style={{ textAlign: "center" }}>
                                 <th>Section</th>
                                 <th>Item Name</th>
-                                <th>Item Image</th>
+                                {/* <th>Item Image</th> */}
                                 <th>Item Description</th>
                                 <th>Price($)</th>
                                 <th>Update</th>

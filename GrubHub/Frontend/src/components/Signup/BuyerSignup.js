@@ -88,7 +88,7 @@ class BuyerSignup extends Component {
       console.log(sendD)
       console.log(sendD.data)
 
-      // window.location.replace('/login')
+      window.location.replace('/login')
     });
 
 

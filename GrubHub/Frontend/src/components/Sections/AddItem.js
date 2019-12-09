@@ -103,7 +103,7 @@ class AddItem extends Component {
             //refetchQueries: [{ query: getBooksQuery }]
         }).then(res => {
             console.log("properties", res);
-            // window.location.replace('/ownersection')
+            window.location.replace('/ownersection')
         });
     };
 
